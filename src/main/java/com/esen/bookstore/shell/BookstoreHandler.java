@@ -34,7 +34,8 @@ public class BookstoreHandler {
     public String listBookstores() {
         return bookstoreService.findAll()
                 .stream()
-                .map(bookstore -> "ID: %d, location: %s, priceModifier: %s, moneyInCashRegister: %s ".formatted(
+                .map(bookstore -> "ID: %d, location: %s, priceModifier: %f, moneyInCashRegister: %f ".formatted(
+                        bookstore.getId(),
                         bookstore.getLocation(),
                         bookstore.getPriceModifier(),
                         bookstore.getMoneyInCashRegister()
