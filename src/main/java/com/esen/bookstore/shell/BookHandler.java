@@ -2,6 +2,7 @@ package com.esen.bookstore.shell;
 
 import com.esen.bookstore.model.Book;
 import com.esen.bookstore.service.BookService;
+import com.esen.bookstore.service.BookStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class BookHandler {
 
     private final BookService bookService;
+    private final BookStoreService bookStoreService;
 
     @ShellMethod(value = "Create a book", key = "create book")
     public void createBook(String title, String author, String publisher, Double price) {
@@ -52,4 +54,13 @@ public class BookHandler {
                         book.getPrice()
                 )).collect(Collectors.joining(System.lineSeparator()));
     }
+    @ShellMethod(value="find prices", key="find prices")
+    public String findPrices(Long id){
+        return bookStoreService.findPrices(id).entrySet().stream().map(entry -> "ID: %d, Location: %s, Price : %f".formatted(
+                entry.getKey().getId(),
+                entry.getKey().getLocation(),
+                entry.getValue()
+        )).collect(Collectors.joining(System.lineSeparator()));
+    }
+
 }

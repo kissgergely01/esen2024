@@ -47,6 +47,18 @@ public class BookstoreHandler {
                             @ShellOption(defaultValue = ShellOption.NULL) Double priceModifier,
                             @ShellOption(defaultValue = ShellOption.NULL) Double moneyInCashRegister){
         bookstoreService.updateBookstore(id,location,priceModifier, moneyInCashRegister);
-
+    }
+    @ShellMethod(value = "get stock", key = "get stock")
+    public String getStock(Long id){
+        return bookstoreService.getStock(id).entrySet().stream().map(entry -> "ID: %d, Author: %s, Title: %s, Stock: %s ".formatted(
+                entry.getKey().getId(),
+                entry.getKey().getAuthor(),
+                entry.getKey().getTitle(),
+                entry.getValue()
+        )).collect(Collectors.joining(System.lineSeparator()));
+    }
+    @ShellMethod(value = "Add stock", key="Add stock")
+    public void addStock(Long bookStoreID, Long bookID, int amount){
+        bookstoreService.changeStock(bookStoreID,bookID,amount);
     }
 }
